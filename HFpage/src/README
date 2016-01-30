@@ -1,0 +1,18 @@
+
+Makefile: a sample makefile
+
+main.C  test_driver.C heap_driver.C: testing programs
+
+hfpage.h: specifications for the HFPage class.
+	  (Note: we do not expect you to change this file.)
+
+hfpage.C: skeleton of the implementation of the HFPage class.
+
+sample_output: output from a correct implementation
+
+IMPORTANT: Don't remove buf.o!
+
+'make' to compile and 'make clean' to clean up the last compilation; Read the project website "waht to turn in" to get the submission instruction. Please make sure you have followed the submission instruction, otherwise your submission might not be credited. 
+ 
+Tips: you can test each individual test by turning on / off the call to each test in test_driver.C (runAllTests)
+If you run the hfpage executable produced by the 'make' with an incomplete hfpage.C implementation, you may end up with foverver loops or segmentation fault. Use ctrl+c or ctrl+z to terminate the running program. Finally, do all your implementation and testing on shell.cs.utah.edu or CADE machines (as the buf.o is generated on this machine, it might not work with your other unix machines).

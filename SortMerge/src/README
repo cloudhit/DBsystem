@@ -1,0 +1,22 @@
+Files included:
+
+Makefile
+README
+smjoin_main.C
+SMJTester.h
+SMJTester.C
+test_driver.h
+test_driver.C
+sortMerge.h
+sort.o
+sort_driver.C
+system_defs.C
+db.C
+hfpage.o
+buf.o
+page.C
+heapfile.o
+scan.C
+
+You need to implement your sortMerge.C.
+The correct output is illustrated at correct_output
