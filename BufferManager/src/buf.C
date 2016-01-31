@@ -118,7 +118,6 @@ hashT::hashT(int size){
 }
 
 hashT::~hashT(){
-  //cout << "delete"<<endl;
   for(int i = 0; i < HTSIZE; i ++){
     idpair* p = keyArray[i].list;
     while(p != 0){
@@ -131,7 +130,6 @@ hashT::~hashT(){
 
   delete []keyArray;
   keyArray = NULL;
-  //cout << "delete"<<endl;
 }
 int hashT::search(PageId id){
   int h = (a * id + b) % HTSIZE;
@@ -169,7 +167,6 @@ void hashT::del(PageId id){
 
 
 BufMgr::BufMgr(int numbuf, Replacer *replacer) {
-  // put your code here
   bufPool = new Page[numbuf];
   ht = new hashT(HTSIZE);
   desc = new descriptor[numbuf];
@@ -181,7 +178,6 @@ BufMgr::BufMgr(int numbuf, Replacer *replacer) {
 
 
 Status BufMgr::pinPage(PageId PageId_in_a_DB, Page*& page, int emptyPage) {
-  // put your code here
   int fid = ht->search(PageId_in_a_DB);
   if(fid != -1){
     if(desc[fid].pin_count == 0){
@@ -225,7 +221,6 @@ Status BufMgr::pinPage(PageId PageId_in_a_DB, Page*& page, int emptyPage) {
 
 
 Status BufMgr::newPage(PageId& firstPageId, Page*& firstpage, int howmany) {
-  // put your code here
   st = MINIBASE_DB->allocate_page(firstPageId, howmany);
   if(st!=OK) return MINIBASE_CHAIN_ERROR(BUFMGR, st);
   st = BufMgr::pinPage(firstPageId, firstpage);
@@ -238,7 +233,6 @@ Status BufMgr::newPage(PageId& firstPageId, Page*& firstpage, int howmany) {
 }
 
 Status BufMgr::flushPage(PageId pageid) {
-  // put your code here
   int x = ht->search(pageid);
   if(x == -1) return MINIBASE_FIRST_ERROR(BUFMGR,HTFOUNDFAIL);
   if(desc[x].dirtybit){
@@ -271,7 +265,6 @@ BufMgr::~BufMgr(){
 //************************************************************
 
 Status BufMgr::unpinPage(PageId page_num, int dirty=FALSE, int hate = FALSE){
-  // put your code here
   int x = ht->search(page_num);
   if(x == -1)return MINIBASE_FIRST_ERROR(BUFMGR, HTFOUNDFAIL);
   if(desc[x].pin_count == 0) return MINIBASE_FIRST_ERROR(BUFMGR, UNPINERROR);
@@ -288,7 +281,6 @@ Status BufMgr::unpinPage(PageId page_num, int dirty=FALSE, int hate = FALSE){
 //************************************************************
 
 Status BufMgr::freePage(PageId globalPageId){
-  // put your code here
   int x = ht->search(globalPageId);
   if(x != -1 && desc[x].pin_count > 0){
     return MINIBASE_FIRST_ERROR(BUFMGR, PAGEFREEFAIL);
@@ -300,7 +292,6 @@ Status BufMgr::freePage(PageId globalPageId){
 }
 
 Status BufMgr::flushAllPages(){
-  //put your code here
   for(int i = 0; i < NUMBUF; i ++){
     if(desc[i].pageid != -1){
       st = BufMgr::flushPage(desc[i].pageid);

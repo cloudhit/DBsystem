@@ -17,7 +17,6 @@
 
 BTreeFileScan::~BTreeFileScan ()
 {
-  // put your code here
   if(head != 0){
   	while(head != 0){
   		metadata* tmp = head;
@@ -30,13 +29,11 @@ BTreeFileScan::~BTreeFileScan ()
 
 int BTreeFileScan::keysize() 
 {
-  // put your code here
   return key_size;
 }
 
 Status BTreeFileScan::get_next (RID & rid, void* keyptr)
 {
-  // put your code here
 	if(cur == 0){
 		cur = head;
 	}else cur = cur -> next;
@@ -50,7 +47,6 @@ void BTreeFileScan::setkeysize(int keysize){
 }
 Status BTreeFileScan::delete_current ()
 {
-  // put your code here
   if(cur == 0)return DONE;
   Status st = OK;
   BTreeFile* btf = new BTreeFile(st, filename);

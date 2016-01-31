@@ -90,25 +90,24 @@ Status Sort::firstPass( char *inFile, int bufferNum, int& tempHFnum ){
 			char* name = (char*)malloc(NAMELEN);
       if(tempHFnum == 1 && total_num >= hf->getRecCnt()){
       sprintf(name, "%s", outFileName);
+      }
+      else
+        makeHFname(name, 1, tempHFnum);
+      Status tmpst;
+      char test[NAMELEN];
+      HeapFile* tmp = new HeapFile(name, tmpst);
+      int cur_cnt = 0;
+      while(cur_cnt < cnt){
+        RID outRid;
+        tmp->insertRecord(buffer + cur_cnt * rec_len, rec_len, outRid);
+        cur_cnt ++;               
+      }
+      tmp = NULL;
     }
-    else
-      makeHFname(name, 1, tempHFnum);
-    Status tmpst;
-    char test[NAMELEN];
-    HeapFile* tmp = new HeapFile(name, tmpst);
-    int cur_cnt = 0;
-    while(cur_cnt < cnt){
-      RID outRid;
-      tmp->insertRecord(buffer + cur_cnt * rec_len, rec_len, outRid);
-      cur_cnt ++;               
-    }
-    tmp = NULL;
-  }
     if(st != OK) break;
   }
   delete scan;
   scan = NULL;
-  //hf->deleteFile();
   delete hf;
   hf = NULL;
   return OK;
@@ -131,7 +130,6 @@ Status Sort::followingPass( int passNum, int oldHFnum,
               Status st;
               hf[j] = new HeapFile(name, st);
               scan[j] = hf[j]->openScan(st);
-              //free(name);
           }else break;
       }
       char* out_name = (char*)malloc(NAMELEN);
@@ -179,10 +177,10 @@ Status Sort::merge( Scan* scan[], int runNum, HeapFile* outHF ){
     delete scan[i];
     scan[i] = 0;
   }   
-      outHF = 0;
-      return OK;
+  outHF = 0;
+   return OK;
 
-  }
+}
 
   // find the "smallest" record from runs.
   /*Status Sort::popup( char* record, int *runFlag, int runNum, int& runId ){
